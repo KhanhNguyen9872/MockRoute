@@ -11,7 +11,7 @@ function ensureFile() {
       SETTINGS_FILE,
       JSON.stringify(
         {
-          adminBase: "home",
+          adminBase: "admin",
           redirectRoot: false,
           timezoneOffset: 0,
           logLimit: 500,
@@ -31,22 +31,22 @@ function getSettings() {
     if (typeof s.redirectRoot === "undefined") s.redirectRoot = false;
     if (typeof s.timezoneOffset === "undefined") s.timezoneOffset = 0;
     if (typeof s.logLimit === "undefined") s.logLimit = 500;
-    if (!s.adminBase) s.adminBase = "home";
+    if (!s.adminBase) s.adminBase = "admin";
     return s;
   } catch {
-    return { adminBase: "home" };
+    return { adminBase: "admin" };
   }
 }
 
 function getAdminBase() {
   const s = getSettings();
-  return (s.adminBase || "home").trim() || "home";
+  return (s.adminBase || "admin").trim() || "admin";
 }
 
 function setAdminBase(adminBase) {
   ensureFile();
   const s = getSettings();
-  s.adminBase = (adminBase || "home").trim() || "home";
+  s.adminBase = (adminBase || "admin").trim() || "admin";
   fs.writeFileSync(SETTINGS_FILE, JSON.stringify(s, null, 2));
   return s.adminBase;
 }

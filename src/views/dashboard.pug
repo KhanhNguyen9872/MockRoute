@@ -23,7 +23,9 @@ block content
   .mt-3
     .card.bg-dark.text-light
       .card-body
-        h5.mb-3 Recent logs
+        .d-flex.justify-content-between.align-items-center.mb-3
+          h5.mb-0 Recent logs
+          a.btn.btn-sm.btn-outline-light(href=`${baseUrl}/logs`) Show all
         if recentLogs && recentLogs.length
           table.table.table-dark.table-striped.mb-0
             thead
@@ -31,12 +33,15 @@ block content
                 th Time
                 th Method
                 th Path
+                th(class="text-end") Actions
             tbody
               each l in recentLogs
                 tr
                   td= (new Date(l.time||Date.now())).toISOString().replace('T',' ').replace(/\.\d+Z$/, '')
                   td= l.method
                   td= l.path
+                  td.text-end
+                    a.btn.btn-sm.btn-outline-info(href=`${baseUrl}/logs/${l.id}`) Show
         else
           p No recent logs.
 

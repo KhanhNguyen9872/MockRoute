@@ -17,11 +17,7 @@ function postLogin(req, res) {
   if (inputUser === envUser && inputPass === envPass) {
     const token = sign({ username: inputUser });
     res.cookie("token", token, { httpOnly: true, sameSite: "lax" });
-    return res.render("login-success", {
-      title: "Đăng nhập thành công",
-      username: inputUser,
-      token,
-    });
+    return res.redirect(req.baseUrl + "/dashboard");
   }
   return res
     .status(401)
@@ -33,7 +29,7 @@ function postLogin(req, res) {
 
 function getLogout(req, res) {
   res.clearCookie("token");
-  res.render("logout", { title: "Đăng xuất" });
+  return res.redirect(req.baseUrl + "/login");
 }
 
 module.exports = { redirectRoot, getLogin, postLogin, getLogout };

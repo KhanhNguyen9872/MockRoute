@@ -1,0 +1,52 @@
+extends layouts/main
+
+block content
+  h2 Admin settings
+  .card.bg-dark.text-light
+    .card-body
+      if saved
+        .alert-success.mb-3 Saved successfully.
+      form(method="post" action=`${baseUrl}/settings` class="row g-3")
+        .col-md-6
+          label.form-label(for="adminBase") Admin base route name
+          input#adminBase.form-control(type="text" name="adminBase" required value=adminBase placeholder="home")
+          small.opacity-75.d-block.mt-1 Example: if set to "khanh" then URLs become /khanh/login, /khanh/dashboard, ...
+        .col-12.form-check
+          input#redirectRoot.form-check-input(type="checkbox" name="redirectRoot" checked=redirectRoot)
+          label.form-check-label(for="redirectRoot") Redirect '/' to admin page by default
+        .col-md-6
+          label.form-label(for="timezoneOffset") Timezone
+          select#timezoneOffset.form-select(name="timezoneOffset")
+            option(value=-12 selected=(timezoneOffset===-12)) UTC-12:00 – Baker Island, Howland Island
+            option(value=-11 selected=(timezoneOffset===-11)) UTC-11:00 – American Samoa, Niue
+            option(value=-10 selected=(timezoneOffset===-10)) UTC-10:00 – Hawaii, Tahiti
+            option(value=-9 selected=(timezoneOffset===-9)) UTC-9:00 – Alaska Standard Time
+            option(value=-8 selected=(timezoneOffset===-8)) UTC-8:00 – Pacific (Los Angeles, Vancouver)
+            option(value=-7 selected=(timezoneOffset===-7)) UTC-7:00 – Mountain (Denver, Calgary)
+            option(value=-6 selected=(timezoneOffset===-6)) UTC-6:00 – Central (Chicago, Mexico City)
+            option(value=-5 selected=(timezoneOffset===-5)) UTC-5:00 – Eastern (New York, Toronto, Lima)
+            option(value=-4 selected=(timezoneOffset===-4)) UTC-4:00 – Atlantic (Caracas, San Juan)
+            option(value=-3 selected=(timezoneOffset===-3)) UTC-3:00 – Buenos Aires, São Paulo
+            option(value=-2 selected=(timezoneOffset===-2)) UTC-2:00 – South Georgia & Sandwich Islands
+            option(value=-1 selected=(timezoneOffset===-1)) UTC-1:00 – Azores, Cape Verde
+            option(value=0 selected=(timezoneOffset===0)) UTC+0:00 – London (GMT), Lisbon
+            option(value=1 selected=(timezoneOffset===1)) UTC+1:00 – Central European (Paris, Berlin, Rome)
+            option(value=2 selected=(timezoneOffset===2)) UTC+2:00 – Eastern European (Athens, Bucharest, Cairo)
+            option(value=3 selected=(timezoneOffset===3)) UTC+3:00 – Moscow, Nairobi, Riyadh
+            option(value=4 selected=(timezoneOffset===4)) UTC+4:00 – Dubai, Baku
+            option(value=5 selected=(timezoneOffset===5)) UTC+5:00 – Pakistan (Karachi)
+            option(value=5.5 selected=(timezoneOffset===5.5)) UTC+5:30 – India (New Delhi)
+            option(value=6 selected=(timezoneOffset===6)) UTC+6:00 – Bangladesh, Almaty
+            option(value=7 selected=(timezoneOffset===7)) UTC+7:00 – Indochina (Hanoi, Bangkok, Jakarta)
+            option(value=8 selected=(timezoneOffset===8)) UTC+8:00 – China, Singapore, Hong Kong
+            option(value=9 selected=(timezoneOffset===9)) UTC+9:00 – Japan (Tokyo), Korea (Seoul)
+            option(value=10 selected=(timezoneOffset===10)) UTC+10:00 – Sydney, Port Moresby
+            option(value=11 selected=(timezoneOffset===11)) UTC+11:00 – Solomon Islands, New Caledonia
+            option(value=12 selected=(timezoneOffset===12)) UTC+12:00 – New Zealand, Fiji
+        .col-md-6
+          label.form-label(for="logLimit") Logs limit (server-side keep latest)
+          input#logLimit.form-control(type="number" name="logLimit" min="1" max="100000" value=(typeof logLimit!=='undefined'?logLimit:500))
+        .col-12
+          button.btn.btn-primary(type="submit") Save
+
+

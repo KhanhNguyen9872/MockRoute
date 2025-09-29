@@ -1,0 +1,15 @@
+.w-100.h-100.d-flex.flex-column
+  .card.bg-dark.text-light.shadow-sm.flex-grow-1
+    .list-group.list-group-flush
+      a.list-group-item.list-group-item-action.bg-dark.text-light.d-flex.align-items-center.gap-2(href=`${baseUrl}/dashboard`)
+        span.bi.bi-speedometer2
+        | Dashboard
+      a.list-group-item.list-group-item-action.bg-dark.text-light.d-flex.align-items-center.gap-2(href=`${baseUrl}/routes`)
+        span.bi.bi-diagram-3
+        | Routes
+      a.list-group-item.list-group-item-action.bg-dark.text-light.d-flex.align-items-center.gap-2(href=`${baseUrl}/logs`)
+        span.bi.bi-clipboard-data
+        | Logs
+      a.list-group-item.list-group-item-action.bg-dark.text-light.d-flex.align-items-center.gap-2(href=`${baseUrl}/settings`)
+        span.bi.bi-gear
+        | Settings

@@ -1,0 +1,14 @@
+extends layouts/main
+
+block content
+  h2 Đăng xuất
+  p Bạn đã đăng xuất. Đang chuyển hướng về trang đăng nhập...
+
+block scripts
+  script.
+    (function(){
+      try { localStorage.removeItem('token'); } catch (e) {}
+      setTimeout(function(){ window.location.href = `${baseUrl}/login`; }, 600);
+    })();
+
+

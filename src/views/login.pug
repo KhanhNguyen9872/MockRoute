@@ -1,0 +1,25 @@
+extends layouts/auth
+
+block content
+  .login-container
+    if error
+      .alert-error #{error}
+    form(method="post" action=`${baseUrl}/login` class="login-form")
+      .form-group
+        label(for="username") Username
+        input#username(type="text" name="username" required placeholder="Enter username")
+      .form-group
+        label(for="password") Password
+        input#password(type="password" name="password" required placeholder="Enter password")
+      button(type="submit" class="btn-primary") Log in
+
+block head
+  style.
+    .login-container { max-width: 420px; margin: 0 auto; }
+    .login-form { display: flex; flex-direction: column; gap: 12px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .btn-primary { padding: 10px 14px; background: #3b82f6; color: #fff; border: 0; border-radius: 6px; cursor: pointer; }
+    .btn-primary:hover { background: #2563eb; }
+    .alert-error { background: #dc2626; color: #fff; padding: 8px 12px; border-radius: 6px; margin-bottom: 8px; }
+
+

@@ -1,0 +1,31 @@
+nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.shadow-sm
+  .container-fluid
+    a.navbar-brand.d-flex.align-items-center.gap-2(href="/")
+      span.bi.bi-lightning-charge-fill
+      | MockRoute
+    button.navbar-toggler(type="button", data-bs-toggle="collapse", data-bs-target="#navbarTop")
+      span.navbar-toggler-icon
+    #navbarTop.collapse.navbar-collapse
+      ul.navbar-nav.me-auto.mb-2.mb-lg-0
+    ul.navbar-nav.ms-auto.align-items-center
+      if user
+        li.nav-item.dropdown
+          a#profileDropdown.nav-link.dropdown-toggle.d-flex.align-items-center.gap-2(href="#", role="button", data-bs-toggle="dropdown", aria-expanded="false")
+            span.avatar-circle #{user.username && user.username[0] ? user.username[0].toUpperCase() : 'U'}
+            span.d-none.d-sm-inline #{user.username}
+          ul.dropdown-menu.dropdown-menu-end(aria-labelledby="profileDropdown")
+            li
+              h6.dropdown-header Account
+            li
+              hr.dropdown-divider
+            li
+              a.dropdown-item(href=`${baseUrl}/logout`)
+                span.bi.bi-box-arrow-right
+                |  Log out
+      else
+        li.nav-item
+          a.nav-link(href=`${baseUrl}/login`)
+            span.bi.bi-box-arrow-in-right
+            |  Log in
+
+

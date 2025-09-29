@@ -1,0 +1,31 @@
+extends layouts/main
+
+block content
+  h2 Edit ignore rule
+  if !rule
+    p Not found
+  else
+    .card.bg-dark.text-light
+      .card-body
+        form(method="post" action=`${baseUrl}/logs/ignore/${rule.id}/edit` class="row g-3")
+          .col-md-4
+            label.form-label(for="matcher") Matcher
+            select#matcher.form-select(name="matcher")
+              option(value="fixed", selected=(rule.matcher==='fixed')) Fixed URL
+              option(value="prefix", selected=(rule.matcher==='prefix')) URL Matching (prefix)
+          .col-md-8
+            label.form-label(for="path") Path
+            input#path.form-control(type="text" name="path" required value=rule.path)
+          .col-12
+            label.form-label(for="note") Note
+            input#note.form-control(type="text" name="note" value=rule.note)
+          .col-12
+            label.form-label(for="status") Status
+            select#status.form-select(name="status")
+              option(value="1", selected=Number(rule.status)===1) Enabled
+              option(value="0", selected=Number(rule.status)===0) Disabled
+          .col-12
+            button.btn.btn-primary(type="submit") Save
+            a.btn.btn-secondary.ms-2(href=`${baseUrl}/logs/ignore`) Cancel
+
+

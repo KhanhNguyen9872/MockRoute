@@ -1,0 +1,110 @@
+extends layouts/main
+
+block content
+  h2 Create new route
+
+  if error
+    .alert-error.mb-3 #{error}
+  .card.bg-dark.text-light
+    .card-body
+      form(method="post" action=`${baseUrl}/routes/create` enctype="multipart/form-data" class="row g-3")
+        .col-md-6
+          label.form-label(for="matcher") Matcher
+          select#matcher.form-select(name="matcher")
+            - const selMatcher = (form && form.matcher) || ''
+            option(value="fixed", selected=selMatcher==='fixed') Fixed URL
+            option(value="prefix", selected=selMatcher==='prefix') URL Matching (prefix)
+        .col-md-3
+          label.form-label(for="method") Method
+          select#method.form-select(name="method")
+            - const selMethod = ((form && form.method) || 'GET').toUpperCase()
+            option(selected=selMethod==='GET') GET
+            option(selected=selMethod==='POST') POST
+            option(selected=selMethod==='PUT') PUT
+            option(selected=selMethod==='PATCH') PATCH
+            option(selected=selMethod==='DELETE') DELETE
+        .col-md-9
+          label.form-label(for="path") Path
+          input#path.form-control(type="text" name="path" required placeholder="/api/hello" value=(form && form.path) || '')
+
+        .col-md-3
+          label.form-label(for="status") Status
+          select#status.form-select(name="status")
+            - const selStatus = Number((form && form.status) ?? 1)
+            option(value="1", selected=selStatus===1) Enabled
+            option(value="0", selected=selStatus===0) Disabled
+
+        .col-12
+          label.form-label(for="responseType") Response type
+          select#responseType.form-select(name="responseType")
+            - const selType = (form && form.responseType) || 'text'
+            option(value="text", selected=selType==='text') Text
+            option(value="json", selected=selType==='json') JSON
+            option(value="file", selected=selType==='file') File
+            option(value="image", selected=selType==='image') Image
+            option(value="video", selected=selType==='video') Video
+            option(value="audio", selected=selType==='audio') Audio
+            option(value="proxy", selected=selType==='proxy') Proxy (fetch from another URL)
+
+
+        // Text
+        .col-12(data-section="text")
+          label.form-label(for="text") Text
+          input#text.form-control(type="text" name="text" placeholder="Xin chào" value=(form && form.text) || '')
+
+        // JSON
+        .col-12(data-section="json")
+          label.form-label(for="json") JSON
+          textarea#json.form-control(name="json" rows="4" placeholder='{"ok":true}') #{(form && form.json) || ''}
+
+        // File/Media/Image
+        .col-12(data-section="file video audio image")
+          label.form-label(for="filePath") File path (optional) or upload below
+          input#filePath.form-control(type="text" name="filePath" placeholder="private/sample.bin" value=(form && form.filePath) || '')
+          .mt-2
+            label.form-label(for="uploadFile") Upload file (1 file)
+            - const acceptMap = { image: 'image/*', video: 'video/*', audio: 'audio/*', file: '*/*' }
+            input#uploadFile.form-control(type="file" name="uploadFile" accept=(acceptMap[selType] || '*/*'))
+
+        // Proxy
+        .col-12(data-section="proxy")
+          .row.g-3
+            .col-md-8
+              label.form-label(for="proxyUrl") Proxy URL
+              input#proxyUrl.form-control(type="text" name="proxyUrl" placeholder="https://httpbin.org/get" value=(form && form.proxyUrl) || '')
+            .col-md-4
+              label.form-label(for="proxyMethod") Proxy Method
+              select#proxyMethod.form-select(name="proxyMethod")
+                - const selProxyMethod = ((form && form.proxyMethod) || 'GET').toUpperCase()
+                option(selected=selProxyMethod==='GET') GET
+                option(selected=selProxyMethod==='POST') POST
+                option(selected=selProxyMethod==='PUT') PUT
+                option(selected=selProxyMethod==='PATCH') PATCH
+                option(selected=selProxyMethod==='DELETE') DELETE
+            .col-12
+              label.form-label(for="proxyHeaders") Proxy Headers (JSON)
+              textarea#proxyHeaders.form-control(name="proxyHeaders" rows="3" placeholder='{"Authorization":"Bearer abc"}') #{(form && form.proxyHeaders) || ''}
+            .col-12.form-check
+              - const chkStreaming = !!(form && form.proxyStreaming)
+              input#proxyStreaming.form-check-input(type="checkbox" name="proxyStreaming" checked=chkStreaming)
+              label.form-check-label(for="proxyStreaming") Streaming (SSE/streaming response)
+
+        .col-12
+          button.btn.btn-primary(type="submit") Save route
+          a.btn.btn-secondary.ms-2(href=`${baseUrl}/routes`) Cancel
+
+block scripts
+  script.
+    (function(){
+      function updateSections(){
+        var type = document.getElementById('responseType').value;
+        document.querySelectorAll('[data-section]')?.forEach(function(el){
+          var keys = (el.getAttribute('data-section')||'').split(/\s+/);
+          el.style.display = keys.includes(type) ? '' : 'none';
+        });
+      }
+      document.getElementById('responseType')?.addEventListener('change', updateSections);
+      updateSections();
+    })();
+
+

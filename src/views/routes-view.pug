@@ -1,0 +1,32 @@
+extends layouts/main
+
+block content
+  h2 Route details
+  if !route
+    p Route not found
+  else
+    .card.bg-dark.text-light
+      .card-body
+        dl.row
+          dt.col-sm-3 ID
+          dd.col-sm-9= route.id
+          dt.col-sm-3 Method
+          dd.col-sm-9= route.method
+          dt.col-sm-3 Path
+          dd.col-sm-9= route.path
+          dt.col-sm-3 Type
+          dd.col-sm-9= route.responseType
+          dt.col-sm-3 Status
+          dd.col-sm-9
+            if Number(route.status)===1
+              span.badge.bg-success Enabled
+            else
+              span.badge.bg-secondary Disabled
+          dt.col-sm-3 Config
+          dd.col-sm-9
+            pre= JSON.stringify(route.response || {}, null, 2)
+    .mt-3
+      a.btn.btn-secondary(href=`${baseUrl}/routes`) Back
+      a.btn.btn-primary.ms-2(href=`${baseUrl}/routes/${route.id}/edit`) Edit
+
+

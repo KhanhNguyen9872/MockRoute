@@ -1,0 +1,17 @@
+extends layouts/main
+
+block content
+  p Hello, #{username}!
+  p Logged in successfully. Redirecting...
+
+block scripts
+  script.
+    (function(){
+      var token = '!{token}';
+      try {
+        localStorage.setItem('token', token);
+      } catch (e) {}
+      setTimeout(function(){ window.location.href = `${baseUrl}/dashboard`; }, 400);
+    })();
+
+

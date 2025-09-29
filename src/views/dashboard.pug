@@ -1,0 +1,43 @@
+extends layouts/main
+
+block content
+  h2 Dashboard
+  .row.g-3
+    .col-md-6
+      .card.bg-dark.text-light
+        .card-body
+          h5.mb-3 Overview
+          .d-flex.gap-4
+            .stat
+              div.small.opacity-75 Routes
+              div.fw-bold #{stats && stats.routesCount}
+            .stat
+              div.small.opacity-75 Logs
+              div.fw-bold #{stats && stats.logsCount}
+    .col-md-6
+      .card.bg-dark.text-light
+        .card-body
+          h5.mb-3 Quick actions
+          a.btn.btn-primary.me-2(href=`${baseUrl}/routes/create`) + Create route
+          a.btn.btn-outline-light(href=`${baseUrl}/logs`) View logs
+  .mt-3
+    .card.bg-dark.text-light
+      .card-body
+        h5.mb-3 Recent logs
+        if recentLogs && recentLogs.length
+          table.table.table-dark.table-striped.mb-0
+            thead
+              tr
+                th Time
+                th Method
+                th Path
+            tbody
+              each l in recentLogs
+                tr
+                  td= (new Date(l.time||Date.now())).toISOString().replace('T',' ').replace(/\.\d+Z$/, '')
+                  td= l.method
+                  td= l.path
+        else
+          p No recent logs.
+
+

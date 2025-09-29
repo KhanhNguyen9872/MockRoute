@@ -1,0 +1,26 @@
+{
+  "name": "mockroute",
+  "version": "1.0.0",
+  "description": "Express app with Pug view engine",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon --watch src --watch app.js --watch server.js --watch .env --watch data/settings.json server.js",
+    "dev": "nodemon --watch src --watch app.js --watch server.js --watch .env --watch data/settings.json server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  },
+  "dependencies": {
+    "axios": "^1.12.2",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mime-types": "^3.0.1",
+    "multer": "^2.0.2",
+    "pug": "^3.0.3"
+  }
+}

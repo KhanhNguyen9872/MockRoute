@@ -1,0 +1,29 @@
+extends layouts/main
+
+block content
+  h2 Ignore rule
+  if !rule
+    p Not found
+  else
+    .card.bg-dark.text-light
+      .card-body
+        dl.row
+          dt.col-sm-3 ID
+          dd.col-sm-9= rule.id
+          dt.col-sm-3 Matcher
+          dd.col-sm-9= rule.matcher
+          dt.col-sm-3 Path
+          dd.col-sm-9= rule.path
+          dt.col-sm-3 Note
+          dd.col-sm-9= rule.note
+          dt.col-sm-3 Status
+          dd.col-sm-9
+            if Number(rule.status)===1
+              span.badge.bg-success Enabled
+            else
+              span.badge.bg-secondary Disabled
+    .mt-3
+      a.btn.btn-secondary(href=`${baseUrl}/logs/ignore`) Back
+      a.btn.btn-primary.ms-2(href=`${baseUrl}/logs/ignore/${rule.id}/edit`) Edit
+
+

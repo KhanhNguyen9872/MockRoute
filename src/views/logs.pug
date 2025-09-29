@@ -1,0 +1,101 @@
+extends layouts/main
+
+block content
+  .d-flex.justify-content-between.align-items-center.mb-2
+    h2.mb-0 Request logs
+    a.btn.btn-sm.btn-outline-info(href=`${baseUrl}/logs/ignore`) Route ignore log
+  .card.bg-dark.text-light.mb-3
+    .card-body
+      form(method="get" action=`${baseUrl}/logs` class="row g-2 align-items-end")
+        .col-md-3
+          label.form-label(for="q") Search
+          input#q.form-control(type="text" name="q" value=q placeholder="path, ip, header...")
+        .col-md-2
+          label.form-label(for="method") Method
+          select#method.form-select(name="method")
+            option(value="") All
+            option(value="GET" selected=(method==='GET')) GET
+            option(value="POST" selected=(method==='POST')) POST
+            option(value="PUT" selected=(method==='PUT')) PUT
+            option(value="PATCH" selected=(method==='PATCH')) PATCH
+            option(value="DELETE" selected=(method==='DELETE')) DELETE
+        .col-md-2
+          label.form-label(for="matcher") Matcher
+          select#matcher.form-select(name="matcher")
+            option(value="") All
+            option(value="fixed" selected=(matcher==='fixed')) fixed
+            option(value="prefix" selected=(matcher==='prefix')) prefix
+        .col-md-2
+          label.form-label(for="pageSize") Page size
+          select#pageSize.form-select(name="pageSize")
+            - const sizes=[10,20,50,100]
+            - for (const s of sizes) {
+            option(value=s selected=(pageSize===s)) #{s}
+            - }
+        .col-md-3
+          button.btn.btn-primary(type="submit") Apply
+          a.btn.btn-secondary.ms-2(href=`${baseUrl}/logs`) Reset
+  .d-flex.justify-content-between.align-items-center.mb-2
+    .d-flex.align-items-center.gap-2
+      span.small.opacity-75 Showing #{logs && logs.length || 0} / #{total} items
+      form(method="get" action=`${baseUrl}/logs` class="d-flex align-items-center gap-2")
+        input(type="hidden" name="q" value=q)
+        input(type="hidden" name="method" value=method)
+        input(type="hidden" name="matcher" value=matcher)
+        label.form-label.mb-0(for="pageSizeInline") Page size
+        input#pageSizeInline.form-control.form-control-sm(type="number" name="pageSize" min="1" max="100" value=pageSize style="width:90px")
+        input(type="hidden" name="page" value="1")
+        button.btn.btn-sm.btn-outline-light(type="submit") Set
+    form(method="post" action=`${baseUrl}/logs/clear`)
+      button.btn.btn-sm.btn-outline-danger(type="submit" onclick="return confirm('Clear all logs?')") Clear all
+
+  if logs && logs.length
+    .card.bg-dark.text-light
+      .card-body.p-0
+        table.table.table-dark.table-striped.mb-0.table-logs
+          thead
+            tr
+              - const tzHeader = (typeof timezoneOffset !== 'undefined' ? timezoneOffset : 0)
+              th Time (UTC #{tzHeader >= 0 ? '+' + tzHeader : tzHeader})
+              th Method
+              th Path
+              th Matcher
+              th Route path
+              th IP
+              th Actions
+          tbody
+            each l in logs
+              tr
+                - const tz = typeof timezoneOffset !== 'undefined' ? timezoneOffset : 0
+                - const d = new Date(l.time || l.time === 0 ? l.time : undefined)
+                - const local = new Date((d && d.getTime ? d.getTime() : Date.now()) + (tz||0)*60*60*1000)
+                - const iso = local.toISOString()
+                - const formatted = iso.replace('T',' ').replace(/\.\d+Z$/, '')
+                td(data-label="Time")
+                  .val= formatted
+                td(data-label="Method")
+                  .val= l.method
+                td.path(data-label="Path")
+                  .val= l.path
+                td(data-label="Matcher")
+                  .val= l.matcher
+                td.routePath(data-label="Route path")
+                  .val= l.routePath
+                td(data-label="IP")
+                  .val= l.ip
+                td.actions(data-label="Actions")
+                  a.btn.btn-sm.btn-outline-light.me-2(href=`${baseUrl}/logs/${l.id}`) Show
+                  form.d-inline(method="post" action=`${baseUrl}/logs/${l.id}/delete`)
+                    button.btn.btn-sm.btn-outline-danger(type="submit" onclick="return confirm('Delete this log?')") Delete
+    if totalPages > 1
+      .p-2
+        nav
+          ul.pagination.pagination-sm.mb-0
+            - for (var p = 1; p <= totalPages; p++) {
+            li.page-item(class=(p===page?'active':''))
+              a.page-link(href=`${baseUrl}/logs?q=${encodeURIComponent(q||'')}&method=${method||''}&matcher=${matcher||''}&pageSize=${pageSize}&page=${p}`) #{p}
+            - }
+  else
+    p No logs yet.
+
+

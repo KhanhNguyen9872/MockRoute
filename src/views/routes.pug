@@ -1,0 +1,50 @@
+extends layouts/main
+
+block content
+  h2 Manage Routes
+  p Create custom Express routes stored in JSON file.
+
+  if saved
+    .alert-success.mb-2 Saved successfully.
+  if deleted
+    .alert-success.mb-2 Deleted successfully.
+
+  .d-flex.justify-content-between.align-items-center.mb-2
+    h5.mb-0 Routes list
+    a.btn.btn-sm.btn-primary(href=`${baseUrl}/routes/create`) + Create route
+
+
+  if routes && routes.length
+    .card.bg-dark.text-light
+      .card-body.p-0
+        table.table.table-dark.table-striped.mb-0.table-routes
+          thead
+            tr
+              th Method
+              th Path
+              th Type
+              th Status
+              th Actions
+          tbody
+            each r in routes
+              tr
+                td(data-label="Method")
+                  .val= r.method
+                td.path(data-label="Path")
+                  .val= r.path
+                td(data-label="Type")
+                  .val
+                    span.badge.bg-secondary= r.responseType
+                td(data-label="Status")
+                  .val
+                    if Number(r.status)===1
+                      span.badge.bg-success Enabled
+                    else
+                      span.badge.bg-secondary Disabled
+                td.actions.text-end(data-label="Actions")
+                  a.btn.btn-sm.btn-outline-info.me-2(href=`${baseUrl}/routes/${r.id}`) View
+                  a.btn.btn-sm.btn-outline-light.me-2(href=`${baseUrl}/routes/${r.id}/edit`) Edit
+                  form.d-inline(method="post" action=`${baseUrl}/routes/${r.id}/delete`)
+                    button.btn.btn-sm.btn-outline-danger(type="submit" onclick="return confirm('Delete this route?')") Delete
+
+

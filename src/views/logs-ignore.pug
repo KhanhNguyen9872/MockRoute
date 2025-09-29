@@ -1,0 +1,41 @@
+extends layouts/main
+
+block content
+  .d-flex.justify-content-between.align-items-center.mb-2
+    h2.mb-0 Ignore logs
+    a.btn.btn-sm.btn-primary(href=`${baseUrl}/logs/ignore/create`) + Add rule
+  if rules && rules.length
+    .card.bg-dark.text-light
+      .card-body.p-0
+        table.table.table-dark.table-striped.mb-0.table-logs-ignore
+            thead
+              tr
+                th Matcher
+                th Path
+                th Note
+                th(class="text-center") Status
+                th(class="text-end") Actions
+            tbody
+              each r in rules
+                tr
+                  td(data-label="Matcher")
+                    .val= r.matcher
+                  td.path(data-label="Path")
+                    .val= r.path
+                td.note(data-label="Note")
+                  .val= r.note
+                td.status.text-center(data-label="Status")
+                  .val
+                    if Number(r.status)===1
+                      span.badge.bg-success Enabled
+                    else
+                      span.badge.bg-secondary Disabled
+                  td.actions.text-end(data-label="Actions")
+                    a.btn.btn-sm.btn-outline-light.me-2(href=`${baseUrl}/logs/ignore/${r.id}`) Show
+                    a.btn.btn-sm.btn-outline-info.me-2(href=`${baseUrl}/logs/ignore/${r.id}/edit`) Edit
+                    form.d-inline(method="post" action=`${baseUrl}/logs/ignore/${r.id}/delete`)
+                      button.btn.btn-sm.btn-outline-danger(type="submit" onclick="return confirm('Delete this rule?')") Delete
+  else
+    p No ignore rules.
+
+

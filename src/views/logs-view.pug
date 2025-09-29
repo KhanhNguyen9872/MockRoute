@@ -1,0 +1,42 @@
+extends layouts/main
+
+block content
+  h2 Log detail
+  .card.bg-dark.text-light
+    .card-body
+      dl.row
+        dt.col-sm-3 ID
+        dd.col-sm-9= log.id
+        dt.col-sm-3 Time
+        dd.col-sm-9
+          - const tz = typeof timezoneOffset !== 'undefined' ? timezoneOffset : 0
+          - const d = new Date(log.time || log.time === 0 ? log.time : undefined)
+          - const local = new Date((d && d.getTime ? d.getTime() : Date.now()) + (tz||0)*60*60*1000)
+          - const iso = local.toISOString()
+          - const formatted = iso.replace('T',' ').replace(/\.\d+Z$/, '')
+          | #{formatted} (UTC #{tz >= 0 ? '+' + tz : tz})
+        dt.col-sm-3 Method
+        dd.col-sm-9= log.method
+        dt.col-sm-3 Path
+        dd.col-sm-9= log.path
+        dt.col-sm-3 Matcher
+        dd.col-sm-9= log.matcher
+        dt.col-sm-3 Route path
+        dd.col-sm-9= log.routePath
+        dt.col-sm-3 IP
+        dd.col-sm-9= log.ip
+        dt.col-sm-3 Query
+        dd.col-sm-9
+          pre= JSON.stringify(log.query||{}, null, 2)
+        dt.col-sm-3 Body
+        dd.col-sm-9
+          pre= JSON.stringify(log.body||{}, null, 2)
+        dt.col-sm-3 Headers
+        dd.col-sm-9
+          pre= JSON.stringify(log.headers||{}, null, 2)
+  .mt-3
+    a.btn.btn-secondary(href=`${baseUrl}/logs`) Back
+    form.d-inline(method="post" action=`${baseUrl}/logs/${log.id}/delete`)
+      button.btn.btn-danger(type="submit" onclick="return confirm('Delete this log?')") Delete
+
+

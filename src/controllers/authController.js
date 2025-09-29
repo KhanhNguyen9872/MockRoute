@@ -22,8 +22,8 @@ function postLogin(req, res) {
   return res
     .status(401)
     .render("login", {
-      title: "Đăng nhập",
-      error: "Sai tài khoản hoặc mật khẩu",
+      title: "Login",
+      error: "Invalid username or password",
     });
 }
 

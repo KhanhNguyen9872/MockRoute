@@ -1,7 +1,7 @@
 const { verify } = require("../services/tokenService");
 
 function authMiddleware(req, res, next) {
-  const bypassPaths = ["/home/login"];
+  const bypassPaths = ["/admin/login"];
   if (bypassPaths.includes(req.path)) return next();
 
   const header = req.headers["authorization"] || "";
@@ -10,14 +10,14 @@ function authMiddleware(req, res, next) {
     token = req.cookies.token;
   }
   if (!token) {
-    return res.redirect("/home/login");
+    return res.redirect("/admin/login");
   }
   try {
     const payload = verify(token);
     req.user = payload;
     return next();
   } catch (err) {
-    return res.redirect("/home/login");
+    return res.redirect("/admin/login");
   }
 }
 

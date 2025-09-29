@@ -4,35 +4,35 @@ block content
   h2 Log detail
   .card.bg-dark.text-light
     .card-body
-      dl.row
-        dt.col-sm-3 ID
-        dd.col-sm-9= log.id
-        dt.col-sm-3 Time
-        dd.col-sm-9
+      dl.row.gy-2
+        dt.col-md-2.col-sm-4 ID
+        dd.col-md-10.col-sm-8= log.id
+        dt.col-md-2.col-sm-4 Time
+        dd.col-md-10.col-sm-8
           - const tz = typeof timezoneOffset !== 'undefined' ? timezoneOffset : 0
           - const d = new Date(log.time || log.time === 0 ? log.time : undefined)
           - const local = new Date((d && d.getTime ? d.getTime() : Date.now()) + (tz||0)*60*60*1000)
           - const iso = local.toISOString()
           - const formatted = iso.replace('T',' ').replace(/\.\d+Z$/, '')
           | #{formatted} (UTC #{tz >= 0 ? '+' + tz : tz})
-        dt.col-sm-3 Method
-        dd.col-sm-9= log.method
-        dt.col-sm-3 Path
-        dd.col-sm-9= log.path
-        dt.col-sm-3 Matcher
-        dd.col-sm-9= log.matcher
-        dt.col-sm-3 Route path
-        dd.col-sm-9= log.routePath
-        dt.col-sm-3 IP
-        dd.col-sm-9= log.ip
-        dt.col-sm-3 Query
-        dd.col-sm-9
+        dt.col-md-2.col-sm-4 Method
+        dd.col-md-10.col-sm-8= log.method
+        dt.col-md-2.col-sm-4 Path
+        dd.col-md-10.col-sm-8= log.path
+        dt.col-md-2.col-sm-4 Matcher
+        dd.col-md-10.col-sm-8= log.matcher
+        dt.col-md-2.col-sm-4 Route path
+        dd.col-md-10.col-sm-8= log.routePath
+        dt.col-md-2.col-sm-4 IP
+        dd.col-md-10.col-sm-8= log.ip
+        dt.col-md-2.col-sm-4 Query
+        dd.col-md-10.col-sm-8
           pre= JSON.stringify(log.query||{}, null, 2)
-        dt.col-sm-3 Body
-        dd.col-sm-9
+        dt.col-md-2.col-sm-4 Body
+        dd.col-md-10.col-sm-8
           pre= JSON.stringify(log.body||{}, null, 2)
-        dt.col-sm-3 Headers
-        dd.col-sm-9
+        dt.col-md-2.col-sm-4 Headers
+        dd.col-md-10.col-sm-8
           pre= JSON.stringify(log.headers||{}, null, 2)
   .mt-3
     a.btn.btn-secondary(href=`${baseUrl}/logs`) Back

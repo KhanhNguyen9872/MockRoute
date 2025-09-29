@@ -39,6 +39,13 @@ style.
   }
   .table-logs-ignore td.status { white-space: nowrap; width: 1%; }
   .table-logs-ignore td.actions { white-space: nowrap; width: 1%; }
+
+  /* Ensure text in dark cards is visible on all deployments */
+  .card.bg-dark.text-light .card-body dl,
+  .card.bg-dark.text-light .card-body dt,
+  .card.bg-dark.text-light .card-body dd {
+    color: #e6e9ef !important;
+  }
   .table-logs-ignore td.actions { white-space: nowrap; width: 1%; }
   .table-logs-ignore th, .table-logs-ignore td { vertical-align: middle; }
   .table-logs td.path, .table-logs td.routePath { max-width: 40vw; word-break: break-word; white-space: normal; }

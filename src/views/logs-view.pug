@@ -4,35 +4,35 @@ block content
   h2 Log detail
   .card.bg-dark.text-light
     .card-body
-      dl.row.gy-2
-        dt.col-md-2.col-sm-4 ID
-        dd.col-md-10.col-sm-8= log.id
-        dt.col-md-2.col-sm-4 Time
-        dd.col-md-10.col-sm-8
+      dl.row.gy-3
+        dt.col-12 ID
+        dd.col-12= log.id
+        dt.col-12 Time
+        dd.col-12
           - const tz = typeof timezoneOffset !== 'undefined' ? timezoneOffset : 0
           - const d = new Date(log.time || log.time === 0 ? log.time : undefined)
           - const local = new Date((d && d.getTime ? d.getTime() : Date.now()) + (tz||0)*60*60*1000)
           - const iso = local.toISOString()
           - const formatted = iso.replace('T',' ').replace(/\.\d+Z$/, '')
           | #{formatted} (UTC #{tz >= 0 ? '+' + tz : tz})
-        dt.col-md-2.col-sm-4 Method
-        dd.col-md-10.col-sm-8= log.method
-        dt.col-md-2.col-sm-4 Path
-        dd.col-md-10.col-sm-8= log.path
-        dt.col-md-2.col-sm-4 Matcher
-        dd.col-md-10.col-sm-8= log.matcher
-        dt.col-md-2.col-sm-4 Route path
-        dd.col-md-10.col-sm-8= log.routePath
-        dt.col-md-2.col-sm-4 IP
-        dd.col-md-10.col-sm-8= log.ip
-        dt.col-md-2.col-sm-4 Query
-        dd.col-md-10.col-sm-8
+        dt.col-12 Method
+        dd.col-12= log.method
+        dt.col-12 Path
+        dd.col-12= log.path
+        dt.col-12 Matcher
+        dd.col-12= log.matcher
+        dt.col-12 Route path
+        dd.col-12= log.routePath
+        dt.col-12 IP
+        dd.col-12= log.ip
+        dt.col-12 Query
+        dd.col-12
           pre= JSON.stringify(log.query||{}, null, 2)
-        dt.col-md-2.col-sm-4 Body
-        dd.col-md-10.col-sm-8
+        dt.col-12 Body
+        dd.col-12
           pre= JSON.stringify(log.body||{}, null, 2)
-        dt.col-md-2.col-sm-4 Headers
-        dd.col-md-10.col-sm-8
+        dt.col-12 Headers
+        dd.col-12
           pre= JSON.stringify(log.headers||{}, null, 2)
   .mt-3
     a.btn.btn-secondary(href=`${baseUrl}/logs`) Back

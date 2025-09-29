@@ -5,6 +5,7 @@ const { randomUUID } = require("crypto");
 const DATA_DIR = process.env.DATA_DIR || (process.env.VERCEL ? path.join('/tmp', 'mockroute-data') : path.join(process.cwd(), 'data'));
 const FILE = path.join(DATA_DIR, "ignore_logs.json");
 const DEFAULT_IGNORE_PATH = "/.well-known/appspecific/com.chrome.devtools.json";
+const DEFAULT_FAVICON_PATH = "/favicon.ico";
 
 function ensure() {
   if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
@@ -16,6 +17,14 @@ function ensure() {
           matcher: "fixed",
           path: DEFAULT_IGNORE_PATH,
           note: "Chrome devtools",
+          status: 1,
+        },
+        {
+          id: randomUUID(),
+          matcher: "fixed",
+          path: DEFAULT_FAVICON_PATH,
+          note: "favicon",
+          status: 1,
         },
       ],
     };
@@ -48,20 +57,17 @@ function readRules() {
       }
       return r;
     });
-    // ensure default rule exists
-    if (
-      !withIds.some(
-        (r) => r.path === DEFAULT_IGNORE_PATH && r.matcher === "fixed"
-      )
-    ) {
-      withIds.unshift({
-        id: randomUUID(),
-        matcher: "fixed",
-        path: DEFAULT_IGNORE_PATH,
-        note: "Chrome devtools",
-      });
-      mutated = true;
-    }
+    // ensure default rules exist
+    const defaults = [
+      { path: DEFAULT_IGNORE_PATH, note: "Chrome devtools" },
+      { path: DEFAULT_FAVICON_PATH, note: "favicon" },
+    ];
+    defaults.forEach(def => {
+      if (!withIds.some(r => r.path === def.path && r.matcher === 'fixed')) {
+        withIds.unshift({ id: randomUUID(), matcher: 'fixed', path: def.path, note: def.note, status: 1 });
+        mutated = true;
+      }
+    });
     if (mutated)
       fs.writeFileSync(FILE, JSON.stringify({ rules: withIds }, null, 2));
     return withIds;

@@ -12,7 +12,7 @@ function ensureFile() {
       JSON.stringify(
         {
           adminBase: "admin",
-          redirectRoot: false,
+          redirectRoot: true,
           timezoneOffset: 0,
           logLimit: 500,
         },
@@ -28,7 +28,7 @@ function getSettings() {
   try {
     const raw = fs.readFileSync(SETTINGS_FILE, "utf8");
     const s = JSON.parse(raw || "{}");
-    if (typeof s.redirectRoot === "undefined") s.redirectRoot = false;
+    if (typeof s.redirectRoot === "undefined") s.redirectRoot = true;
     if (typeof s.timezoneOffset === "undefined") s.timezoneOffset = 0;
     if (typeof s.logLimit === "undefined") s.logLimit = 500;
     if (!s.adminBase) s.adminBase = "admin";

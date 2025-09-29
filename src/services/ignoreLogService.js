@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const { randomUUID } = require("crypto");
 
-const DATA_DIR = path.join(process.cwd(), "data");
+const DATA_DIR = process.env.DATA_DIR || (process.env.VERCEL ? path.join('/tmp', 'mockroute-data') : path.join(process.cwd(), 'data'));
 const FILE = path.join(DATA_DIR, "ignore_logs.json");
 const DEFAULT_IGNORE_PATH = "/.well-known/appspecific/com.chrome.devtools.json";
 

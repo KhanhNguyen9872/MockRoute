@@ -1,25 +1,26 @@
 extends layouts/auth
 
 block content
-  .login-container
-    if error
-      .alert-error #{error}
-    form(method="post" action=`${baseUrl}/login` class="login-form")
-      .form-group
-        label(for="username") Username
-        input#username(type="text" name="username" required placeholder="Enter username")
-      .form-group
-        label(for="password") Password
-        input#password(type="password" name="password" required placeholder="Enter password")
-      button(type="submit" class="btn-primary") Log in
+  .login-wrap
+    .card.bg-dark.text-light.shadow-lg
+      .card-body.p-4
+        .text-center.mb-3
+          h4.mb-0 Sign in
+          p.small.opacity-75 Please enter your credentials
+        if error
+          .alert-error.mb-3 #{error}
+        form(method="post" action=`${baseUrl}/login` autocomplete="on")
+          .mb-3
+            label.form-label(for="username") Username
+            input#username.form-control(type="text" name="username" required placeholder="Enter username" autofocus)
+          .mb-3
+            label.form-label(for="password") Password
+            input#password.form-control(type="password" name="password" required placeholder="Enter password" autocomplete="current-password")
+          button.btn.btn-primary.w-100(type="submit") Log in
 
 block head
   style.
-    .login-container { max-width: 420px; margin: 0 auto; }
-    .login-form { display: flex; flex-direction: column; gap: 12px; }
-    .form-group { display: flex; flex-direction: column; gap: 6px; }
-    .btn-primary { padding: 10px 14px; background: #3b82f6; color: #fff; border: 0; border-radius: 6px; cursor: pointer; }
-    .btn-primary:hover { background: #2563eb; }
-    .alert-error { background: #dc2626; color: #fff; padding: 8px 12px; border-radius: 6px; margin-bottom: 8px; }
+    .login-wrap { max-width: 420px; margin: 8vh auto; }
+    .alert-error { background: #7f1d1d; border: 1px solid #ef4444; color: #fff; padding: 8px 12px; border-radius: 6px; }
 
 
